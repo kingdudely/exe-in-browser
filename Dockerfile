@@ -16,7 +16,6 @@ apk add --no-cache \
 dbus-uuidgen > /etc/machine-id && \
 adduser -D ${USER} && \
 mkdir -p ${HOME} && \
-mkdir -p ${WINEPREFIX} && \
 chown -R ${USER}:${USER} ${HOME}
 
 USER ${USER}
