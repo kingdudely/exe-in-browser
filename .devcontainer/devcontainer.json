@@ -1,18 +1,11 @@
 {
-	"image": "alpine:edge",
+	"image": "dietznuts/wine-and-xpra:latest",
 	"containerEnv": {
 		"XDG_RUNTIME_DIR": "/tmp"
 	},
 	"containerUser": "penguin",
 	"remoteUser": "penguin",
-	"onCreateCommand": [
-		"adduser -D penguin",
-		"apk update && apk add --no-cache wine xpra xpra-webclient dbus-x11 xauth mesa-gl glib"
-	],
-	"postCreateCommand": [
-		"dbus-uuidgen > /etc/machine-id",
-		"wineboot --init"
-	],
+	"postCreateCommand": "wineboot --init",
 	"postStartCommand": "wineserver -w && xpra start --bind-tcp=0.0.0.0:1337 --html=on --daemon=no --exit-with-children --start-child=winefile",
 	"forwardPorts": [1337],
 	"portsAttributes": {
