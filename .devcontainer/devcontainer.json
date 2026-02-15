@@ -1,0 +1,24 @@
+{
+	"image": "alpine:edge",
+	"containerEnv": {
+		"XDG_RUNTIME_DIR": "/tmp"
+	},
+	"containerUser": "penguin",
+	"remoteUser": "penguin",
+	"onCreateCommand": [
+		"adduser -D penguin",
+		"apk update && apk add --no-cache wine xpra xpra-webclient dbus-x11 xauth mesa-gl glib"
+	],
+	"postCreateCommand": [
+		"dbus-uuidgen > /etc/machine-id",
+		"wineboot --init"
+	],
+	"postStartCommand": "wineserver -w && xpra start --bind-tcp=0.0.0.0:1337 --html=on --daemon=no --exit-with-children --start-child=winefile",
+	"forwardPorts": [1337],
+	"portsAttributes": {
+		"1337": {
+			"label": "File Explorer",
+			"onAutoForward": "openBrowser"
+		}
+	}
+}
